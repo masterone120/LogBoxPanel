@@ -19,8 +19,20 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
 
-app.listen(5050, () => {
-    console.log('Server running on port 5050');
+app.listen(5000, () => {
+    console.log('Server running on port 5000');
+});
+
+app.post('/api', async (req, res) => {
+    const { browser, event, host, pid, session, terminal, time, title, url, user } = req.body;
+    try {
+        const result = await pool.query(
+            'INSERT INTO api (browser, event, host, pid, session, terminal, time, title, url, user) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10),[browser, event, host, pid, session, terminal, time, title, url, user]'
+        );
+        res.status(201).json({ id: result.rows[0].id});
+    } catch (error) {
+        res.status(500).json({ error: 'Data Insert Failed'});
+    }
 });
 
 app.post('/register', async (req, res) => {
