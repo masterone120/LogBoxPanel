@@ -17,6 +17,7 @@ import {
 } from "./scenes";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 
 const AppRouter = () => {
@@ -24,20 +25,20 @@ const AppRouter = () => {
     <Router>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/team" element={<Team />} />
-          <Route path="/contacts" element={<Contacts />} />
-          <Route path="/invoices" element={<Invoices />} />
-          <Route path="/form" element={<Form />} />
-          <Route path="/calendar" element={<Calendar />} />
-          <Route path="/bar" element={<Bar />} />
-          <Route path="/pie" element={<Pie />} />
-          <Route path="/stream" element={<Stream />} />
-          <Route path="/line" element={<Line />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/geography" element={<Geography />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route index element={<ProtectedRoute element={<Dashboard />} />} />
+          <Route path="team" element={<ProtectedRoute element={<Team />} />} />
+          <Route path="contacts" element={<ProtectedRoute element={<Contacts />} />} />
+          <Route path="invoices" element={<ProtectedRoute element={<Invoices />} />} />
+          <Route path="form" element={<ProtectedRoute element={<Form />} />} />
+          <Route path="calendar" element={<ProtectedRoute element={<Calendar />} />} />
+          <Route path="bar" element={<ProtectedRoute element={<Bar />} />} />
+          <Route path="pie" element={<ProtectedRoute element={<Pie />} />} />
+          <Route path="stream" element={<ProtectedRoute element={<Stream />} />} />
+          <Route path="line" element={<ProtectedRoute element={<Line />} />} />
+          <Route path="faq" element={<ProtectedRoute element={<FAQ />} />} />
+          <Route path="geography" element={<ProtectedRoute element={<Geography />} />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
         </Route>
       </Routes>
     </Router>

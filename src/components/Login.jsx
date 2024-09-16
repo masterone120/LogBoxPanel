@@ -1,17 +1,21 @@
 // src/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAuth} from "./AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+    // const [successMessage, setSuccessMessage] = useState('');
+    const auth = useAuth();
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setErrorMessage('');
-        setSuccessMessage('');
+        // setSuccessMessage('');
 
         try {
             const response = await axios.post('http://192.168.11.131:5050/login', {
@@ -19,9 +23,10 @@ const Login = () => {
                 password,
             });
             localStorage.setItem('token', response.data.token); // Store the token
-            setSuccessMessage('Login successful!');
+            // setSuccessMessage('Login successful!');
             // Redirect or perform other actions as needed
-             window.location.href = '/'; // Example redirect
+            auth.login();
+            navigate('/');
         } catch (error) {
             setErrorMessage(error.response?.data?.error || 'Login failed');
         }
@@ -52,7 +57,7 @@ const Login = () => {
                 <button type="submit">Login</button>
             </form>
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+            {/*{successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}*/}
         </div>
     );
 };
