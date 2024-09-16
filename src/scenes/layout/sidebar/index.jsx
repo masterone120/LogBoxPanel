@@ -76,7 +76,7 @@ const SideBar = () => {
                   textTransform="capitalize"
                   color={colors.greenAccent[500]}
                 >
-                  Argon
+                  LogBox
                 </Typography>
               </Box>
             )}
@@ -103,7 +103,7 @@ const SideBar = () => {
           />
           <Box sx={{ textAlign: "center" }}>
             <Typography variant="h3" fontWeight="bold" color={colors.gray[100]}>
-              Tony Stark
+              Javad Emami
             </Typography>
             <Typography
               variant="h6"
@@ -155,7 +155,7 @@ const SideBar = () => {
         >
           <Item
             title="Net Log"
-            path="/team"
+            path="/netlog"
             colors={colors}
             icon={<LanguageIcon />}
           />

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import App from "./App";
 import {
   Dashboard,
-  Team,
+  NetLog,
   Invoices,
   Contacts,
   Form,
@@ -26,7 +26,7 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<ProtectedRoute element={<Dashboard />} />} />
-          <Route path="team" element={<ProtectedRoute element={<Team />} />} />
+          <Route path="netlog" element={<ProtectedRoute element={<NetLog />} />} />
           <Route path="contacts" element={<ProtectedRoute element={<Contacts />} />} />
           <Route path="invoices" element={<ProtectedRoute element={<Invoices />} />} />
           <Route path="form" element={<ProtectedRoute element={<Form />} />} />
