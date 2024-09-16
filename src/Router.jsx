@@ -37,9 +37,9 @@ const AppRouter = () => {
           <Route path="line" element={<ProtectedRoute element={<Line />} />} />
           <Route path="faq" element={<ProtectedRoute element={<FAQ />} />} />
           <Route path="geography" element={<ProtectedRoute element={<Geography />} />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
         </Route>
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
       </Routes>
     </Router>
   );
