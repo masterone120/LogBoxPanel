@@ -1,67 +1,48 @@
+import React, { useEffect, useState } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
-import { Header } from "../../components";
 import { DataGrid } from "@mui/x-data-grid";
-import { mockDataTeam } from "../../data/mockData";
 import { tokens } from "../../theme";
-import {
-  AdminPanelSettingsOutlined,
-  LockOpenOutlined,
-  SecurityOutlined,
-} from "@mui/icons-material";
+import axios from "axios"; 
 
-const Team = () => {
+const ApiDataGrid = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  
+  const [apiData, setApiData] = useState([]); // State to store API data
 
   const columns = [
     { field: "id", headerName: "ID" },
-    {
-      field: "name",
-      headerName: "Name",
-      flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    { field: "phone", headerName: "Phone Number", flex: 1 },
-    { field: "email", headerName: "Email", flex: 1 },
-    {
-      field: "access",
-      headerName: "Access Level",
-      flex: 1,
-      renderCell: ({ row: { access } }) => {
-        return (
-          <Box
-            width="120px"
-            p={1}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            gap={1}
-            bgcolor={
-              access === "admin"
-                ? colors.greenAccent[600]
-                : colors.greenAccent[700]
-            }
-            borderRadius={1}
-          >
-            {access === "admin" && <AdminPanelSettingsOutlined />}
-            {access === "manager" && <SecurityOutlined />}
-            {access === "user" && <LockOpenOutlined />}
-            <Typography textTransform="capitalize">{access}</Typography>
-          </Box>
-        );
-      },
-    },
+    { field: "user", headerName: "User", flex: 1 },
+    { field: "browser", headerName: "Browser", flex: 1 },
+    { field: "url", headerName: "URL", flex: 1 },
+    // { field: "event", headerName: "Event", flex: 1 },
+    { field: "host", headerName: "Host", flex: 1 },
+    // { field: "pid", headerName: "PID", flex: 1 },
+    // { field: "session", headerName: "Session", flex: 1 },
+    { field: "terminal", headerName: "Terminal", flex: 1 },
+    { field: "time", headerName: "Time", flex: 1 },
+    { field: "title", headerName: "Title", flex: 1 },
   ];
+
+  // Fetch API data from Express server
+  useEffect(() => {
+    const fetchApiData = async () => {
+      try {
+        const response = await axios.get('http://192.168.11.131:5000/api/data'); // Adjust URL as necessary
+        setApiData(response.data); // Set state with fetched data
+      } catch (error) {
+        console.error("Error fetching API data:", error);
+      }
+    };
+
+    fetchApiData();
+  }, []);
+
   return (
     <Box m="20px">
-      <Header title="TEAM" subtitle="Managing the Team Members" />
+      <Typography variant="h4" gutterBottom>
+        NetLog
+      </Typography>
       <Box
         mt="40px"
         height="75vh"
@@ -72,9 +53,6 @@ const Team = () => {
           },
           "& .MuiDataGrid-cell": {
             border: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
           },
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: colors.blueAccent[700],
@@ -87,16 +65,10 @@ const Team = () => {
             borderTop: "none",
             backgroundColor: colors.blueAccent[700],
           },
-          "& .MuiCheckbox-root": {
-            color: `${colors.greenAccent[200]} !important`,
-          },
-          "& .MuiDataGrid-iconSeparator": {
-            color: colors.primary[100],
-          },
         }}
       >
         <DataGrid
-          rows={mockDataTeam}
+          rows={apiData} // Use fetched API data here
           columns={columns}
           initialState={{
             pagination: {
@@ -112,4 +84,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default ApiDataGrid;

@@ -27,11 +27,23 @@ app.post('/api', async (req, res) => {
     const { browser, event, host, pid, session, terminal, time, title, url, user } = req.body;
     try {
         const result = await pool.query(
-            'INSERT INTO api (browser, event, host, pid, session, terminal, time, title, url, user) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10),[browser, event, host, pid, session, terminal, time, title, url, user]'
+            'INSERT INTO api ("browser", "event", "host", "pid", "session", "terminal", "time", "title", "url", "user") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
+            [browser, event, host, pid, session, terminal, time, title, url, user]
         );
-        res.status(201).json({ id: result.rows[0].id});
+        res.status(201).json({ id: result.rows[0].id });
     } catch (error) {
-        res.status(500).json({ error: 'Data Insert Failed'});
+        console.error(error); // Log the error for debugging
+        res.status(500).json({ error: 'Data Insert Failed' });
+    }
+});
+
+app.get('/api/data', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM api'); // Adjust table name as necessary
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error(error); // Log the error for debugging
+        res.status(500).json({ error: 'Failed to retrieve data' });
     }
 });
 

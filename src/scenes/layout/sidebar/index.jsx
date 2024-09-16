@@ -12,12 +12,12 @@ import {
   HelpOutlineOutlined,
   MapOutlined,
   MenuOutlined,
-  PeopleAltOutlined,
   PersonOutlined,
   ReceiptOutlined,
   TimelineOutlined,
   WavesOutlined,
 } from "@mui/icons-material";
+import LanguageIcon from '@mui/icons-material/Language';
 import avatar from "../../../assets/images/avatar.png";
 import logo from "../../../assets/images/logo.png";
 import Item from "./Item";
@@ -154,10 +154,10 @@ const SideBar = () => {
           }}
         >
           <Item
-            title="Manage Team"
+            title="Net Log"
             path="/team"
             colors={colors}
-            icon={<PeopleAltOutlined />}
+            icon={<LanguageIcon />}
           />
           <Item
             title="Contacts Information"
