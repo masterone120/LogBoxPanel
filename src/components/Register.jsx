@@ -1,36 +1,33 @@
-// src/Login.jsx
+// src/Register.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Login = () => {
+const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
-    const handleLogin = async (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         setErrorMessage('');
         setSuccessMessage('');
 
         try {
-            const response = await axios.post('http://192.168.11.131:5050/login', {
+            const response = await axios.post('http://localhost:5050/register', {
                 username,
                 password,
             });
-            localStorage.setItem('token', response.data.token); // Store the token
-            setSuccessMessage('Login successful!');
-            // Redirect or perform other actions as needed
-             window.location.href = '/'; // Example redirect
+            setSuccessMessage(`Registration successful! User ID: ${response.data.id}`);
         } catch (error) {
-            setErrorMessage(error.response?.data?.error || 'Login failed');
+            setErrorMessage(error.response?.data?.error || 'Registration failed');
         }
     };
 
     return (
         <div>
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
+            <h2>Register</h2>
+            <form onSubmit={handleRegister}>
                 <div>
                     <label>Username:</label>
                     <input
@@ -49,7 +46,7 @@ const Login = () => {
                         required
                     />
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
             </form>
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
@@ -57,4 +54,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;

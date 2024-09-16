@@ -15,6 +15,9 @@ import {
   Calendar,
   Stream,
 } from "./scenes";
+import Login from "./components/Login";
+import Register from "./components/Register";
+
 
 const AppRouter = () => {
   return (
@@ -33,6 +36,8 @@ const AppRouter = () => {
           <Route path="/line" element={<Line />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/geography" element={<Geography />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
       </Routes>
     </Router>
