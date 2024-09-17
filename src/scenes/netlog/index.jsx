@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar  } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import axios from "axios";
 import moment from 'moment-jalaali';
@@ -89,8 +89,8 @@ const ApiDataGrid = () => {
             <Typography variant="h4" gutterBottom>
                 NetLog
             </Typography>
-            <Box mb="20px">
-                <Button variant="contained" color="primary" onClick={exportToExcel}>
+            <Box mb="20px" display="flex" justifyContent="flex-end" flexDirection="right">
+                <Button variant="contained" color="secondary" onClick={exportToExcel}>
                     Export to Excel
                 </Button>
                 <Button variant="contained" color="secondary" onClick={exportToPDF} style={{ marginLeft: '10px' }}>
@@ -133,6 +133,7 @@ const ApiDataGrid = () => {
                         },
                     }}
                     checkboxSelection
+                    slots={{ toolbar: GridToolbar }}
                 />
             </Box>
         </Box>
