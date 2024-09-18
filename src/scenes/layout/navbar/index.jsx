@@ -12,7 +12,7 @@ import {
   LightModeOutlined,
   MenuOutlined,
   NotificationsOutlined,
-  PersonOutlined, // This can be replaced with a logout icon if desired
+  ExitToApp, // This can be replaced with a logout icon if desired
   SearchOutlined,
   SettingsOutlined,
 } from "@mui/icons-material";
@@ -77,7 +77,7 @@ const Navbar = () => {
         {/* Logout Button */}
         <IconButton onClick={handleLogout}>
           {/* Use an appropriate icon for logout */}
-          <PersonOutlined /> {/* You can replace this with a logout icon */}
+          <ExitToApp />  {/* You can replace this with a logout icon */}
         </IconButton>
       </Box>
     </Box>
