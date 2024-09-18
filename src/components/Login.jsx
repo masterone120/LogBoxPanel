@@ -1,6 +1,8 @@
+// src/components/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAuth } from "./AuthContext";
+import { useDispatch } from 'react-redux'; // Import useDispatch
+import { login } from '../store/authSlice'; // Import login action
 import { useNavigate } from "react-router-dom";
 import {
     TextField,
@@ -17,7 +19,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
     
-    const auth = useAuth();
+    const dispatch = useDispatch(); // Get dispatch function
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -30,19 +32,14 @@ const Login = () => {
                 username,
                 password,
             });
-              // Log the entire response to see its structure
-            console.log('Response:', response);
 
-            // Log the token if it exists
             if (response.data.token) {
-                console.log('Token:', response.data.token);
+                dispatch(login({ token: response.data.token })); // Dispatch login action with token payload
+
+                navigate('/', { replace: true });
             } else {
                 console.error('Token not found in response');
             }
-            localStorage.setItem('token', response.data.token);
-            localStorage.setItem('isAuthenticated', 'true');
-            auth.login();
-            navigate('/');
         } catch (error) {
             if (error.response) {
                 setErrorMessage(error.response.data.error || 'Login failed');
@@ -79,6 +76,7 @@ const Login = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
+                    autoComplete="username"
                 />
                 <TextField
                     label="Password"
@@ -89,6 +87,7 @@ const Login = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    autoComplete="current-password"
                 />
                 <Button variant="contained" color="primary" type="submit" fullWidth disabled={loading}>
                     {loading ? 'Logging in...' : 'Login'}
