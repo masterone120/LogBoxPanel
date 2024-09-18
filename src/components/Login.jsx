@@ -1,7 +1,6 @@
-// src/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAuth } from "./AuthContext.jsx";
+import { useAuth } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
 import {
     TextField,
@@ -16,23 +15,44 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+    
     const auth = useAuth();
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setErrorMessage('');
+        setLoading(true);
 
         try {
             const response = await axios.post('http://192.168.11.131:5000/login', {
                 username,
                 password,
             });
-            localStorage.setItem('token', response.data.token); // Store the token
-            auth.login(); // Call the login method from AuthContext
-            navigate('/'); // Redirect to home or dashboard
+              // Log the entire response to see its structure
+            console.log('Response:', response);
+
+            // Log the token if it exists
+            if (response.data.token) {
+                console.log('Token:', response.data.token);
+            } else {
+                console.error('Token not found in response');
+            }
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('isAuthenticated', 'true');
+            auth.login();
+            navigate('/');
         } catch (error) {
-            setErrorMessage(error.response?.data?.error || 'Login failed');
+            if (error.response) {
+                setErrorMessage(error.response.data.error || 'Login failed');
+            } else if (error.request) {
+                setErrorMessage('Network error. Please try again later.');
+            } else {
+                setErrorMessage('An unexpected error occurred.');
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -70,8 +90,8 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
-                <Button variant="contained" color="primary" type="submit" fullWidth>
-                    Login
+                <Button variant="contained" color="primary" type="submit" fullWidth disabled={loading}>
+                    {loading ? 'Logging in...' : 'Login'}
                 </Button>
             </form>
             {errorMessage && (

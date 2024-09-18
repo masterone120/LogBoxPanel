@@ -17,6 +17,7 @@ import {
   SettingsOutlined,
 } from "@mui/icons-material";
 import { ToggledContext } from "../../../App";
+
 const Navbar = () => {
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
@@ -24,6 +25,8 @@ const Navbar = () => {
   const isMdDevices = useMediaQuery("(max-width:768px)");
   const isXsDevices = useMediaQuery("(max-width:466px)");
   const colors = tokens(theme.palette.mode);
+
+
   return (
     <Box
       display="flex"
@@ -65,9 +68,11 @@ const Navbar = () => {
         </IconButton>
         <IconButton>
           <SettingsOutlined />
-        </IconButton>
+        </IconButton>   
+        {/* Logout Button */}
         <IconButton>
-          <PersonOutlined />
+          {/* You can replace this with an appropriate icon for logout */}
+          <PersonOutlined /> {/* Example icon, replace with a logout icon if available */}
         </IconButton>
       </Box>
     </Box>

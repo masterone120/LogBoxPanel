@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const app = express();
-// app.use(cors());
 app.use(bodyParser.json());
 
 app.use(cors({
@@ -18,6 +17,8 @@ app.use(cors({
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
 });
+
+let tokenBlacklist = [];
 
 app.listen(5000, () => {
     console.log('Server running on port 5000');
@@ -75,4 +76,30 @@ app.post('/login', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
     }
+});
+
+app.post('/logout', (req, res) => {
+    const token = req.headers['authorization']?.split(' ')[1]; // Get the token from the Authorization header
+    if (token) {
+        tokenBlacklist.push(token); // Add token to blacklist
+        return res.status(200).json({ message: 'Logged out successfully' });
+    }
+    res.status(400).json({ error: 'No token provided' });
+});
+
+const isTokenBlacklisted = (token) => {
+    return tokenBlacklist.includes(token);
+};
+
+app.get('/protected', (req, res) => {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token || isTokenBlacklisted(token)) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    jwt.verify(token, '@lis.159654', (err, decoded) => {
+        if (err) return res.status(401).json({ error: 'Invalid token' });
+        // Proceed with protected resource
+        res.json({ message: 'This is protected data', userId: decoded.id });
+    });
 });
