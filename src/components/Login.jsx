@@ -1,17 +1,20 @@
 // src/components/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux'; // Import useDispatch
-import { login } from '../store/authSlice'; // Import login action
+import { useDispatch } from 'react-redux';
+import { login } from '../store/authSlice';
 import { useNavigate } from "react-router-dom";
 import {
     TextField,
     Button,
-    Typography,
     Box,
     Snackbar,
     Alert
 } from '@mui/material';
+
+// Import the image
+import loginImage from '../assets/images/login.png'; // Adjust the path as necessary
+import './Login.css'; // Import your CSS file
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -19,7 +22,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
     
-    const dispatch = useDispatch(); // Get dispatch function
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -34,8 +37,7 @@ const Login = () => {
             });
 
             if (response.data.token) {
-                dispatch(login({ token: response.data.token })); // Dispatch login action with token payload
-
+                dispatch(login({ token: response.data.token }));
                 navigate('/', { replace: true });
             } else {
                 console.error('Token not found in response');
@@ -64,9 +66,9 @@ const Login = () => {
                 padding: 2
             }}
         >
-            <Typography variant="h4" gutterBottom>
-                Login
-            </Typography>
+            {/* Replace Typography with an Image */}
+            <img src={loginImage} alt="Login" style={{ width: '100%', maxWidth: 400, marginBottom: 20, animation: 'bounce 2s infinite' }} />
+            
             <form onSubmit={handleLogin} style={{ width: '100%', maxWidth: 400 }}>
                 <TextField
                     label="Username"
@@ -89,7 +91,7 @@ const Login = () => {
                     required
                     autoComplete="current-password"
                 />
-                <Button variant="contained" color="primary" type="submit" fullWidth disabled={loading}>
+                <Button className="shining-button" variant="contained" color="primary" type="submit" fullWidth disabled={loading}>
                     {loading ? 'Logging in...' : 'Login'}
                 </Button>
             </form>

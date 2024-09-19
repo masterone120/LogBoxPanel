@@ -26,6 +26,12 @@ app.listen(5000, () => {
 
 app.post('/api', async (req, res) => {
     const { browser, event, host, pid, session, terminal, time, title, url, user } = req.body;
+
+    // Check if the event is "open"
+    if (event !== "Opened") {
+        return res.status(400).json({ error: 'Event must be "Opened" to insert' });
+    }
+
     try {
         const result = await pool.query(
             'INSERT INTO api ("browser", "event", "host", "pid", "session", "terminal", "time", "title", "url", "user") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
@@ -37,6 +43,7 @@ app.post('/api', async (req, res) => {
         res.status(500).json({ error: 'Data Insert Failed' });
     }
 });
+
 
 app.get('/api/data', async (req, res) => {
     try {

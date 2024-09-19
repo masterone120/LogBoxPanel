@@ -86,17 +86,9 @@ const ApiDataGrid = () => {
 
     return (
         <Box m="20px">
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom color="textPrimary">
                 NetLog
             </Typography>
-            <Box mb="20px" display="flex" justifyContent="flex-end" flexDirection="right">
-                <Button variant="contained" color="secondary" onClick={exportToExcel}>
-                    Export to Excel
-                </Button>
-                <Button variant="contained" color="secondary" onClick={exportToPDF} style={{ marginLeft: '10px' }}>
-                    Export to PDF
-                </Button>
-            </Box>
             <Box
                 mt="40px"
                 height="75vh"
